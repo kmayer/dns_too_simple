@@ -59,5 +59,30 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   #
-  config.include RSpec::Rails::RequestExampleGroup, type: :request, file_path: /spec\/api/
+end
+
+module JSONHelpers
+  def post_json(path, object, expected_response = "201")
+    post path, params: object.to_json, headers: { "CONTENT_TYPE" => "application/json", "ACCEPT" => "application/json" }
+    expect(response.code).to eq(expected_response), response.body
+  end
+
+  def put_json(path, object, expected_response = "201")
+    put path, params: object.to_json, headers: { "CONTENT_TYPE" => "application/json", "ACCEPT" => "application/json" }
+    expect(response.code).to eq(expected_response), response.body
+  end
+
+  def get_json(path, expected_response = "200")
+    get path, headers: { "ACCEPT" => "application/json" }
+    expect(response.code).to eq(expected_response), response.body
+  end
+
+  def delete_json(path, expected_response = "200")
+    delete path, headers: { "ACCEPT" => "application/json" }
+    expect(response.code).to eq(expected_response)#, response.body
+  end
+end
+
+RSpec.configure do |config|
+  config.include JSONHelpers, file_path: %r{spec/requests}
 end
