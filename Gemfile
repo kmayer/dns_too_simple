@@ -45,3 +45,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "rspec-rails", "~> 3.8", :groups => [:development, :test]
+
+gem "awesome_print", "~> 1.8", :groups => [:development, :test]
+
+gem "grape", "~> 1.2"
