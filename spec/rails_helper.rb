@@ -65,21 +65,29 @@ module JSONHelpers
   def post_json(path, object, expected_response = "201")
     post path, params: object.to_json, headers: { "CONTENT_TYPE" => "application/json", "ACCEPT" => "application/json" }
     expect(response.code).to eq(expected_response), response.body
+    expect(parsed_json).to be # valid JSON
   end
 
   def put_json(path, object, expected_response = "201")
     put path, params: object.to_json, headers: { "CONTENT_TYPE" => "application/json", "ACCEPT" => "application/json" }
     expect(response.code).to eq(expected_response), response.body
+    expect(parsed_json).to be # valid JSON
   end
 
   def get_json(path, expected_response = "200")
     get path, headers: { "ACCEPT" => "application/json" }
     expect(response.code).to eq(expected_response), response.body
+    expect(parsed_json).to be # valid JSON
   end
 
   def delete_json(path, expected_response = "200")
     delete path, headers: { "ACCEPT" => "application/json" }
     expect(response.code).to eq(expected_response)#, response.body
+    expect(parsed_json).to be # valid JSON
+  end
+
+  def parsed_json
+    JSON.parse(response.body)
   end
 end
 

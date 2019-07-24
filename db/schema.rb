@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_23_025159) do
+ActiveRecord::Schema.define(version: 2019_07_23_190641) do
+
+  create_table "records", force: :cascade do |t|
+    t.string "name"
+    t.integer "ttl"
+    t.string "record_data"
+    t.string "type"
+    t.integer "zone_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "zones", force: :cascade do |t|
     t.string "domain_name"

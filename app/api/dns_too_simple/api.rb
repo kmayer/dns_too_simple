@@ -43,6 +43,7 @@ module DNSTooSimple
         put do
           zone = Zone.find(params[:id])
           zone.update!(domain_name: params[:domain_name])
+          zone
         end
       end
 
@@ -54,6 +55,70 @@ module DNSTooSimple
         delete do
           zone = Zone.find(params[:id])
           zone.destroy!
+        end
+      end
+
+      route_param :zone_id, type: String do
+        resource :records do
+          desc "Return a zone record"
+          params do
+            requires :id, type: String, desc: "Record ID"
+          end
+          route_param :id do
+            get do
+              zone = Zone.find(params[:zone_id])
+              zone.records.find(params[:id])
+            end
+          end
+
+          desc "Returns all zone records"
+          get do
+            zone = Zone.find(params[:zone_id])
+            zone.records
+          end
+
+          desc "Create a zone record"
+          params do
+            requires :ttl, type: Integer, desc: "Time To Live (in seconds)"
+            requires :name, type: String, desc: "Name"
+            requires :type, type: String, desc: "Record type", values: %w[A CNAME]
+            optional :ipaddr, type: String, desc: "IPV4 address"
+            optional :domain_name, type: String, desc: "domain_name"
+          end
+          post do
+            zone = Zone.find(params[:zone_id])
+            zone.records.create!(params)
+          end
+
+          desc "Update a zone record"
+          params do
+            requires :id, type: String, desc: "Record ID"
+            requires :ttl, type: Integer, desc: "Time To Live (in seconds)"
+            requires :name, type: String, desc: "Name"
+            requires :type, type: String, desc: "Record type", values: %w[A CNAME]
+            optional :ipaddr, type: String, desc: "IPV4 address"
+            optional :domain_name, type: String, desc: "domain_name"
+          end
+          route_param :id do
+            put do
+              zone = Zone.find(params[:zone_id])
+              record = zone.records.find(params[:id])
+              record.update!(params)
+              record
+            end
+          end
+
+          desc "Destroy a record"
+          params do
+            requires :id, type: String, desc: "Record ID"
+          end
+          route_param :id do
+            delete do
+              zone = Zone.find(params[:zone_id])
+              record = zone.records.find(params[:id])
+              record.destroy!
+            end
+          end
         end
       end
     end
