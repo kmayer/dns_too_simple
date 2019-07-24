@@ -82,8 +82,8 @@ module DNSTooSimple
             requires :ttl, type: Integer, desc: "Time To Live (in seconds)"
             requires :name, type: String, desc: "Name"
             requires :type, type: String, desc: "Record type", values: %w[A CNAME]
-            optional :ipaddr, type: String, desc: "IPV4 address"
-            optional :domain_name, type: String, desc: "domain_name"
+            optional :ipaddr, type: String, desc: "IPv4 address"
+            optional :domain_name, type: String, desc: "Domain name"
           end
           post do
             zone = Zone.find(params[:zone_id])
@@ -96,8 +96,8 @@ module DNSTooSimple
             requires :ttl, type: Integer, desc: "Time To Live (in seconds)"
             requires :name, type: String, desc: "Name"
             requires :type, type: String, desc: "Record type", values: %w[A CNAME]
-            optional :ipaddr, type: String, desc: "IPV4 address"
-            optional :domain_name, type: String, desc: "domain_name"
+            optional :ipaddr, type: String, desc: "IPv4 address"
+            optional :domain_name, type: String, desc: "Domain name"
           end
           route_param :id do
             put do
