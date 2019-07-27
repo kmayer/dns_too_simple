@@ -45,7 +45,7 @@ The API will expose two main resource endpoints: *Zone* and *Record*.
 
 A Record will expose the following information:
 
-- `Name`, `Record ID`, `Type`, `Record Data`, `TTL`
+- `Name`, `Record Type`, `Record Data`, `TTL`
  
 The data must have the following constraints:
 
